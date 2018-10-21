@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Virtual environment
+.env
+.venv*/
+
+# DS_Store
+.DS_Store
+
+# Local databases
+*.sqlite3
+
+arcamet/media
+arcamet/static
+items/image/
+
+# Temporary project files
+arcamet/tmp
+
+# NPM packages folder.
+node_modules/
+
+# Brunch folder for temporary files.
+tmp/
+
+# Package lock
+package-lock.json
