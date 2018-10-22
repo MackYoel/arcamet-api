@@ -8,7 +8,7 @@ class TicketItemInline(admin.TabularInline):
 
 @admin.register(models.Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('issue_date', 'delivery_date', 'client')
+    list_display = ('issue_date', 'delivery_date', 'client', 'status')
     inlines = [TicketItemInline]
 
 

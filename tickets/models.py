@@ -2,6 +2,7 @@ import os
 import uuid
 from decimal import Decimal
 
+from django.db.models import F, Sum
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils import timezone
@@ -47,6 +48,17 @@ class Client(ContactAbstract):
 
 
 class Ticket(models.Model):
+    QUEUED = 1
+    FINISHED = 2
+    DELIVERED = 3
+
+    STATES = (
+        (QUEUED, 'En cola'),
+        (FINISHED, 'Terminado'),
+        (DELIVERED, 'Entregado'),
+    )
+
+    status = models.PositiveSmallIntegerField(choices=STATES, default=QUEUED)
     document_number = models.IntegerField()
     issue_date = models.DateTimeField(default=timezone.now, blank=True)
     delivery_date = models.DateTimeField(blank=True)
@@ -58,6 +70,11 @@ class Ticket(models.Model):
 
     def __str__(self):
         return str(self.document_number)
+
+    @staticmethod
+    def get_total_expression():
+        subtotal = F('items__quantity') * F('items__unit_price')
+        return Sum(subtotal)
 
     def save(self, *args, **kwargs):
         if self.id is None:
